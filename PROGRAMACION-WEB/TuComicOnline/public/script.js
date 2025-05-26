@@ -55,3 +55,19 @@ const analytics = getAnalytics(app);
 // const storage = getStorage(app);
 
 console.log("Firebase inicializado correctamente");  
+
+const storageRef = firebase.storage().ref();
+storageRef.child("BLUE LOCK/CAPITULO 1/13-14.jpg").getDownloadURL().then((url) => {
+    console.log("URL de la imagen:", url);
+});
+const chapterRef = firebase.storage().ref().child("BLUE LOCK/CAPITULO 1/");
+chapterRef.listAll().then((result) => {
+    result.items.forEach((imageRef) => {
+        imageRef.getDownloadURL().then((url) => {
+            console.log("Imagen:", url);
+            // Aquí puedes agregar la URL a tu página web
+        });
+    });
+});
+
+<img class="double-page" src="URL_DE_13-14.jpg" alt="Doble página">

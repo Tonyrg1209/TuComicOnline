@@ -41,6 +41,25 @@
         </div>
     </section>
 
+    <div class="comic-card" data-categories="deporte accion" data-title="blue lock">
+    <!-- Nota: el src inicial se deja vacío; se actualizará dinámicamente -->
+    <img id="blueLockCover" src="" alt="Blue Lock" class="comic-cover">
+    <div class="comic-info">
+        <h3>Blue Lock</h3>
+        <p>Por Kaneshiro Muneyuki</p>
+        <div class="comic-categories">
+            <span class="category-badge">Deporte</span>
+            <span class="category-badge">Acción</span>
+        </div>
+        <div class="comic-stats">
+            <span>👁️ 1.5K</span>
+            <span>❤️ 324</span>
+        </div>
+    </div>
+    <a href="chapter.html?comic=blue_lock" class="comic-link"></a>
+</div>
+
+
     <!-- Footer -->
     <footer>
         <p>&copy; 2024 Comic A4. Todos los derechos reservados.</p>
@@ -59,5 +78,34 @@
         }
     });
 </script>
+
+<!-- Firebase App (SDK principal) -->
+<script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
+<!-- Firebase Storage -->
+<script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-storage-compat.js"></script>
+<script>
+// Configuración de Firebase (reemplaza con tus datos)
+const firebaseConfig = {
+    apiKey: "TU_API_KEY",
+    authDomain: "tucomiconline-8015d.firebaseapp.com",
+    projectId: "tucomiconline-8015d",
+    storageBucket: "tucomiconline-8015d.appspot.com",
+    messagingSenderId: "TU_MESSAGING_SENDER_ID",
+    appId: "TU_APP_ID"
+};
+firebase.initializeApp(firebaseConfig);
+const storage = firebase.storage();
+
+// Cargar la portada "01.jpg"
+storage.ref('COMICS/BLUE LOCK/01.jpg').getDownloadURL()
+  .then(url => {
+    document.getElementById("blueLockCover").src = url;
+  })
+  .catch(error => {
+    console.error("Error al cargar la portada:", error);
+  });
+</script>
+
+
 </body>
 </html>

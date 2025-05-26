@@ -782,3 +782,14 @@ nav ul li a.active {
         grid-template-columns: 1fr;
     }
 }
+
+.double-page {
+    width: 100%;
+    object-fit: contain;
+}
+
+.double-page {
+    width: 100%;
+    object-fit: contain;
+    margin: 1rem 0;
+}
