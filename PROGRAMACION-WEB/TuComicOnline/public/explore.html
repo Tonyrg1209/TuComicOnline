@@ -1,105 +1,125 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explorar Cómics | TuComicOnline</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explorar Cómics | Comic A4</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <h1>TuComicOnline</h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="upload.html">Subir cómic</a></li>
-                <li><a href="explore.html" class="active">Explorar</a></li>
-                <li><a href="profile.html" id="auth-link">Perfil</a></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <div class="logo">
+      <h1>COMIC A4</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="upload.html">Subir cómic</a></li>
+        <li><a href="explore.html" class="active">Explorar</a></li>
+        <li><a href="profile.html" id="auth-link">Perfil</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <main class="container">
-        <h2>Explorar Cómics</h2>
-        
-        <!-- Barra de búsqueda y filtros -->
-        <div class="search-filter">
-            <input type="text" id="search-input" placeholder="Buscar cómics...">
-            <div class="categories-filter">
-                <span class="filter-title">Filtrar por:</span>
-                <div class="categories-list">
-                    <span class="category-tag active" data-category="all">Todos</span>
-                    <span class="category-tag" data-category="deporte">Deporte</span>
-                    <span class="category-tag" data-category="accion">Acción</span>
-                    <span class="category-tag" data-category="aventura">Aventura</span>
-                </div>
+  <main class="container">
+    <h2>Explorar Cómics</h2>
+    <div class="search-filter">
+      <input type="text" id="search-input" placeholder="Buscar cómics...">
+      <div class="categories-filter">
+        <span class="filter-title">Filtrar por:</span>
+        <div class="categories-list">
+          <span class="category-tag active" data-category="all">Todos</span>
+          <span class="category-tag" data-category="deporte">Deporte</span>
+          <span class="category-tag" data-category="accion">Acción</span>
+          <span class="category-tag" data-category="aventura">Aventura</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="comics-grid" id="comics-grid">
+      <!-- Los cómics se cargarán aquí con JavaScript -->
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Comic A4. Todos los derechos reservados.</p>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+    import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA-Vi0YAa9YCDefs15XMZtBnel6Z_iKvk8",
+      authDomain: "tucomiconline-8015d.firebaseapp.com",
+      projectId: "tucomiconline-8015d",
+      storageBucket: "tucomiconline-8015d.appspot.com",
+      messagingSenderId: "333995248665",
+      appId: "1:333995248665:web:11da2b947fe80dab0dee88",
+      measurementId: "G-43WCCJ9HLL"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+
+    // Cargar cómics dinámicamente
+    async function loadComics() {
+      const comicsGrid = document.getElementById("comics-grid");
+      const comicData = [
+        {
+          id: "BLUE LOCK",
+          title: "Blue Lock",
+          author: "Kaneshiro Muneyuki",
+          categories: ["deporte", "accion"],
+          stats: { views: "1.5K", likes: "324" }
+        }
+      ];
+
+      for (const comic of comicData) {
+        const coverUrl = await getDownloadURL(ref(storage, `${comic.id}/01.jpg`));
+        comicsGrid.innerHTML += `
+          <div class="comic-card" data-categories="${comic.categories.join(" ")}" data-title="${comic.title.toLowerCase()}">
+            <img src="${coverUrl}" alt="${comic.title}" class="comic-cover">
+            <div class="comic-info">
+              <h3>${comic.title}</h3>
+              <p>Por ${comic.author}</p>
+              <div class="comic-categories">
+                ${comic.categories.map(cat => `<span class="category-badge">${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>`).join("")}
+              </div>
+              <div class="comic-stats">
+                <span>👁️ ${comic.stats.views}</span>
+                <span>❤️ ${comic.stats.likes}</span>
+              </div>
             </div>
-        </div>
+            <a href="viewer.html?comic=${encodeURIComponent(comic.id)}&chapter=1" class="comic-link"></a>
+          </div>
+        `;
+      }
+    }
 
-        <!-- Lista de cómics -->
-        <div class="comics-grid">
-            <div class="comic-card" data-categories="deporte accion" data-title="blue lock">
-                <img src="COMICS/BLUE LOCK/P1.jpg" alt="Blue Lock" class="comic-cover">
-                <div class="comic-info">
-                    <h3>Blue Lock</h3>
-                    <p>Por Kaneshiro Muneyuki</p>
-                    <div class="comic-categories">
-                        <span class="category-badge">Deporte</span>
-                        <span class="category-badge">Acción</span>
-                    </div>
-                    <div class="comic-stats">
-                        <span>👁️ 1.5K</span>
-                        <span>❤️ 324</span>
-                    </div>
-                </div>
-                <a href="chapter.html?comic=blue_lock" class="comic-link"></a>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 TuComicOnline. Todos los derechos reservados.</p>
-    </footer>
-
-    <script>
-        // Filtrado por categorías
-        document.querySelectorAll('.category-tag').forEach(tag => {
-            tag.addEventListener('click', function() {
-                const category = this.dataset.category;
-                
-                // Actualizar etiquetas activas
-                document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Filtrar cómics
-                const comics = document.querySelectorAll('.comic-card');
-                comics.forEach(comic => {
-                    if (category === 'all' || comic.dataset.categories.includes(category)) {
-                        comic.style.display = 'block';
-                    } else {
-                        comic.style.display = 'none';
-                    }
-                });
-            });
+    // Filtros y búsqueda (mismo código que antes)
+    document.querySelectorAll(".category-tag").forEach(tag => {
+      tag.addEventListener("click", function() {
+        const category = this.dataset.category;
+        document.querySelectorAll(".category-tag").forEach(t => t.classList.remove("active"));
+        this.classList.add("active");
+        const comics = document.querySelectorAll(".comic-card");
+        comics.forEach(comic => {
+          comic.style.display = (category === "all" || comic.dataset.categories.includes(category)) ? "block" : "none";
         });
+      });
+    });
 
-        // Búsqueda por título
-        document.getElementById('search-input').addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const comics = document.querySelectorAll('.comic-card');
-            
-            comics.forEach(comic => {
-                const title = comic.dataset.title.toLowerCase();
-                if (title.includes(searchTerm)) {
-                    comic.style.display = 'block';
-                } else {
-                    comic.style.display = 'none';
-                }
-            });
-        });
-    </script>
+    document.getElementById("search-input").addEventListener("input", function() {
+      const searchTerm = this.value.toLowerCase();
+      document.querySelectorAll(".comic-card").forEach(comic => {
+        comic.style.display = comic.dataset.title.includes(searchTerm) ? "block" : "none";
+      });
+    });
+
+    // Iniciar carga
+    loadComics();
+  </script>
 </body>
 </html>
