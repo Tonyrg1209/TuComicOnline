@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lector de Cómics | TuComicOnline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Se incluyen los scripts de Firebase (versión compat para mantener la sintaxis clásica) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+
+  <style>
+    .viewer-container {
+      width: 100%;
+      max-width: 900px;
+      margin: 2rem auto;
+      background-color: var(--primary-medium);
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      padding: 1rem;
+      text-align: center;
+    }
+    
+    #comic-viewer {
+      width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      background: #f0f0f0;
+    }
+    
+    .viewer-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background-color: var(--primary-light);
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+    
+    .viewer-nav button {
+      background-color: var(--accent-blue);
+      color: var(--primary-dark);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      margin: 0 5px;
+      transition: all 0.3s;
+    }
+    
+    .viewer-nav button:hover {
+      background-color: #52e6c8;
+    }
+    
+    .viewer-info {
+      color: var(--text-primary);
+    }
+    
+    .back-to-chapters {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .back-to-chapters:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1>TuComicOnline</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="upload.html">Subir cómic</a></li>
+        <li><a href="explore.html">Explorar</a></li>
+        <li><a href="profile.html" id="auth-link">Perfil</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <a href="chapter.html?comic=blue_lock" class="back-to-chapters">← Volver a Capítulos</a>
+    
+    <div class="viewer-container">
+      <div class="viewer-controls">
+        <div class="viewer-nav">
+          <button id="prev-page">Anterior</button>
+          <button id="next-page">Siguiente</button>
+        </div>
+        <div class="viewer-info">
+          Página <span id="page-num">1</span> de <span id="page-count">0</span>
+        </div>
+      </div>
+      
+      <img id="comic-viewer" src="" alt="Página de cómic">
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 TuComicOnline. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    // Configuración de Firebase (REEMPLAZA estos valores con los de tu proyecto)
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "tucomiconline-8015d.firebaseapp.com",
+      projectId: "tucomiconline-8015d",
+      storageBucket: "tucomiconline-8015d.appspot.com",
+      messagingSenderId: "TU_MESSAGING_SENDER_ID",
+      appId: "TU_APP_ID"
+    };
+
+    // Inicializar Firebase
+    firebase.initializeApp(firebaseConfig);
+    const storage = firebase.storage();
+
+    // Obtener parámetros de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const comic = urlParams.get('comic');     // Se espera "blue_lock"
+    const chapter = urlParams.get('chapter') || "1"; // Valor por defecto: "1"
+
+    let imageUrls = [];
+    let currentPage = 0;
+
+    // Función para extraer un valor numérico del nombre del archivo,
+    // de modo que imágenes con nombre "13-14.jpg" se ordenen correctamente.
+    function getSortKey(fileName) {
+      // Quita la extensión (.jpg, .png, etc.)
+      let base = fileName.replace(/\.[^/.]+$/, "");
+      // Si el nombre tiene un guion (ej. 13-14), se toma el primer número
+      let parts = base.split('-');
+      const num = parseInt(parts[0], 10);
+      return isNaN(num) ? 0 : num;
+    }
+
+    // Función para cargar las imágenes del capítulo desde Firebase Storage
+    function loadChapterImages() {
+      let folderPath = "";
+      if (comic === "blue_lock") {
+        // Se construye la ruta según la estructura del bucket
+        folderPath = `BLUE LOCK/CAPITULO ${chapter}`;
+      } else {
+        folderPath = `${comic}/CAPITULO ${chapter}`;
+      }
+
+      // Referencia a la carpeta en Firebase Storage
+      const folderRef = storage.ref(folderPath);
+      // Listamos todos los archivos en la carpeta
+      folderRef.listAll().then((result) => {
+        // Ordenamos los archivos usando la función getSortKey
+        const items = result.items.sort((a, b) => {
+          const keyA = getSortKey(a.name);
+          const keyB = getSortKey(b.name);
+          if (keyA === keyB) {
+            return a.name.localeCompare(b.name);
+          }
+          return keyA - keyB;
+        });
+
+        // Actualizamos la cantidad de páginas en la interfaz
+        document.getElementById('page-count').textContent = items.length;
+        
+        // Obtenemos las URL de descarga de cada imagen
+        const promises = items.map((item) => item.getDownloadURL());
+        return Promise.all(promises);
+      }).then((urls) => {
+        imageUrls = urls;
+        showPage(0); // Mostramos la primera página
+      }).catch((error) => {
+        console.error("Error al cargar las imágenes:", error);
+        document.getElementById('comic-viewer').outerHTML =
+          "<p>No se pudieron cargar las imágenes del cómic.</p>";
+      });
+    }
+
+    // Función para mostrar la imagen de la página actual
+    function showPage(index) {
+      if (index >= 0 && index < imageUrls.length) {
+        document.getElementById('comic-viewer').src = imageUrls[index];
+        document.getElementById('page-num').textContent = index + 1;
+        currentPage = index;
+      }
+    }
+
+    // Botones de navegación
+    document.getElementById('prev-page').addEventListener('click', () => {
+      if (currentPage > 0) {
+        showPage(currentPage - 1);
+      }
+    });
+
+    document.getElementById('next-page').addEventListener('click', () => {
+      if (currentPage < imageUrls.length - 1) {
+        showPage(currentPage + 1);
+      }
+    });
+
+    // Iniciar la carga de imágenes al cargar la página
+    window.onload = loadChapterImages;
+  </script>
+</body>
+</html>

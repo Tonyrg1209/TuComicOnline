@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comic A4 | Plataforma de Cómics</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <h1>COMIC A4</h1>
+        </div>
+      <nav>
+    <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="upload.html">Subir cómic</a></li>
+        <li><a href="explore.html">Explorar</a></li>
+        <li><a href="auth.html" id="auth-link">Iniciar sesión</a></li>
+    </ul>
+</nav>
+
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <h2>Publica y lee cómics en formato A4</h2>
+            <p>La plataforma perfecta para creadores independientes.</p>
+            <a href="upload.html" class="cta-button">Publicar ahora</a>
+        </div>
+    </section>
+
+    <!-- Comics Grid -->
+    <section class="comics-section">
+        <h2>Cómics populares</h2>
+        <div class="comics-grid" id="comics-grid">
+            <!-- Los cómics se cargarán aquí con JS -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Comic A4. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const userName = localStorage.getItem('userName');
+        const authLink = document.getElementById('auth-link');
+        
+        if (isLoggedIn && authLink) {
+            authLink.textContent = `Perfil de ${userName}`;
+            authLink.href = 'profile.html';
+        }
+    });
+</script>
+</body>
+</html>

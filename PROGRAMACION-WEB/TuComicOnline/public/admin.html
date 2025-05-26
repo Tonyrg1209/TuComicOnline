@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- [Estilos similares a upload.html] -->
+</head>
+<body>
+    <div class="admin-container">
+        <h2>Panel de Administración</h2>
+        
+        <div class="admin-actions">
+            <div class="upload-section">
+                <h3>Subir nuevo cómic</h3>
+                <form id="admin-upload-form">
+                    <!-- Similar a upload.html pero con más campos -->
+                    <input type="file" id="comic-pdf" accept=".pdf" required>
+                    <input type="file" id="comic-cover" accept="image/*" required>
+                    <button type="submit">Publicar cómic</button>
+                </form>
+            </div>
+            
+            <div class="comics-list">
+                <h3>Tus cómics publicados</h3>
+                <div id="admin-comics-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Aquí iría la lógica para:
+        // 1. Subir archivos a tu servidor
+        // 2. Mostrar lista de cómics existentes
+        // 3. Opciones de editar/eliminar
+    </script>
+</body>
+</html>

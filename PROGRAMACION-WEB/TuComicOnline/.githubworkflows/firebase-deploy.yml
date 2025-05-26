@@ -1,0 +1,29 @@
+name: Deploy to Firebase Hosting
+
+on:
+  push:
+    branches:
+      - main  # Puedes cambiar esto si usas otra rama para despliegues
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'  # Cambia la versión si es necesario
+
+    - name: Install Firebase CLI
+      run: npm install -g firebase-tools
+
+    - name: Deploy to Firebase Hosting
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+      run: |
+        echo "$GOOGLE_APPLICATION_CREDENTIALS" > firebase-credentials.json
+        firebase deploy --only hosting --token "$(cat firebase-credentials.json)"

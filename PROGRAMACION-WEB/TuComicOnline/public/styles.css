@@ -1,0 +1,784 @@
+/* Estilos generales */
+:root {
+    --primary-dark: #0a192f;
+    --primary-medium: #172a45;
+    --primary-light: #303f60;
+    --accent-blue: #64ffda;
+    --text-primary: #e6f1ff;
+    --text-secondary: #8892b0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--primary-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    background-color: var(--primary-medium);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    background: linear-gradient(90deg, var(--accent-blue), #4facfe);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin-left: 1.5rem;
+}
+
+nav ul li a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+nav ul li a:hover {
+    color: var(--accent-blue);
+    background-color: rgba(100, 255, 218, 0.1);
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, var(--primary-medium), var(--primary-dark));
+    padding: 5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(100, 255, 218, 0.05)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+    background-size: cover;
+    opacity: 0.1;
+}
+
+.hero-text {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.hero h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(90deg, var(--text-primary), var(--accent-blue));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--accent-blue);
+    color: var(--primary-dark);
+    padding: 0.8rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    background-color: #52e6c8;
+}
+
+/* Comics Section */
+.comics-section {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.comics-section h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2rem;
+    color: var(--text-primary);
+    position: relative;
+}
+
+.comics-section h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background-color: var(--accent-blue);
+    margin: 1rem auto 0;
+}
+
+.comics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.comic-card {
+    background-color: var(--primary-medium);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.comic-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.comic-cover {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+.comic-info {
+    padding: 1.5rem;
+}
+
+.comic-title {
+    font-size: 1.2rem;
+    margin: 0 0 0.5rem;
+    color: var(--text-primary);
+}
+
+.comic-author {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.comic-stats {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+/* Footer */
+footer {
+    background-color: var(--primary-medium);
+    padding: 2rem;
+    text-align: center;
+    margin-top: 3rem;
+}
+
+footer p {
+    margin: 0;
+    color: var(--text-secondary);
+}
+
+/* Efectos nocturnos adicionales */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--primary-dark);
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.comic-card {
+    animation: fadeIn 0.5s ease-out forwards;
+    opacity: 0;
+}
+
+.comic-card:nth-child(1) { animation-delay: 0.1s; }
+.comic-card:nth-child(2) { animation-delay: 0.2s; }
+.comic-card:nth-child(3) { animation-delay: 0.3s; }
+.comic-card:nth-child(4) { animation-delay: 0.4s; }
+.comic-card:nth-child(5) { animation-delay: 0.5s; }
+.comic-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* Estilos específicos para la página de subida */
+.upload-section {
+    padding: 3rem 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.upload-container {
+    background-color: var(--primary-medium);
+    border-radius: 10px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.upload-section h2 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.upload-section .subtitle {
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+}
+
+.form-section {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--primary-light);
+}
+
+.form-section h3 {
+    font-size: 1.4rem;
+    color: var(--accent-blue);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background-color: var(--accent-blue);
+    color: var(--primary-dark);
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 12px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="number"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: var(--primary-light);
+    border: 1px solid rgba(100, 255, 218, 0.2);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.hint {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+/* Estilos para los checkboxes de categorías */
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.category-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background-color: var(--primary-light);
+    transition: all 0.3s;
+}
+
+.category-checkbox:hover {
+    background-color: rgba(100, 255, 218, 0.1);
+}
+
+.category-checkbox input {
+    display: none;
+}
+
+.custom-checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--text-secondary);
+    border-radius: 4px;
+    margin-right: 10px;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.category-checkbox input:checked + .custom-checkbox {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+}
+
+.custom-checkbox::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 4px;
+    height: 8px;
+    border: solid var(--primary-dark);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.category-checkbox input:checked + .custom-checkbox::after {
+    opacity: 1;
+}
+
+.category-label {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+/* Estilos para la subida de archivos */
+.file-upload {
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.upload-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--primary-light);
+    border: 1px dashed rgba(100, 255, 218, 0.3);
+    border-radius: 6px;
+    padding: 12px 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.upload-label:hover {
+    border-color: var(--accent-blue);
+}
+
+.upload-button {
+    background-color: var(--accent-blue);
+    color: var(--primary-dark);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.file-upload input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Estilos para el checkbox de términos */
+.form-group input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.terms-link {
+    color: var(--accent-blue);
+    text-decoration: none;
+}
+
+.terms-link:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para el botón de envío */
+.form-actions {
+    text-align: center;
+    margin-top: 2.5rem;
+}
+
+.submit-button {
+    background: linear-gradient(90deg, var(--accent-blue), #4facfe);
+    color: var(--primary-dark);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(100, 255, 218, 0.3);
+}
+
+.submit-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(100, 255, 218, 0.4);
+}
+
+.button-icon {
+    margin-left: 8px;
+    font-weight: bold;
+}
+
+/* Estilo para enlace activo en el nav */
+nav ul li a.active {
+    color: var(--accent-blue);
+    background-color: rgba(100, 255, 218, 0.1);
+}
+/* Estilos para los requisitos A4 */
+.a4-requirements {
+    background-color: rgba(100, 255, 218, 0.05);
+    border-left: 3px solid var(--accent-blue);
+    padding: 1rem;
+    margin: 1.5rem 0;
+    border-radius: 0 6px 6px 0;
+}
+
+.a4-requirements h4 {
+    color: var(--accent-blue);
+    margin-top: 0;
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.a4-requirements ul {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.a4-requirements li {
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.a4-requirements li:last-child {
+    margin-bottom: 0;
+}
+
+/* Mejoras para el hint */
+.hint {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+    line-height: 1.5;
+}
+
+/* Ajustes para el subtítulo */
+.upload-section .subtitle {
+    color: var(--accent-blue);
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+}
+/* Estilos generales */
+:root {
+    --primary-dark: #0a192f;
+    --primary-medium: #172a45;
+    --primary-light: #303f60;
+    --accent-blue: #64ffda;
+    --text-primary: #e6f1ff;
+    --text-secondary: #8892b0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+/* Estilos para la página de exploración */
+.search-filter {
+    background-color: var(--primary-medium);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+#search-input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--primary-light);
+    border-radius: 4px;
+    background-color: var(--primary-dark);
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.categories-filter {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.filter-title {
+    color: var(--accent-blue);
+    font-weight: 500;
+}
+
+.categories-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.category-tag {
+    background-color: var(--primary-light);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.category-tag:hover, .category-tag.active {
+    background-color: var(--accent-blue);
+    color: var(--primary-dark);
+}
+
+.comics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.comic-card {
+    background-color: var(--primary-medium);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.comic-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.comic-cover {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+}
+
+.comic-info {
+    padding: 1.5rem;
+}
+
+.comic-info h3 {
+    margin: 0 0 0.5rem;
+    color: var(--text-primary);
+}
+
+.comic-info p {
+    margin: 0 0 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.comic-categories {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0.8rem 0;
+}
+
+.category-badge {
+    background-color: rgba(100, 255, 218, 0.1);
+    color: var(--accent-blue);
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    border: 1px solid var(--accent-blue);
+}
+
+.comic-stats {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+.comic-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Estilos para la página de capítulos */
+.back-button {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-button:hover {
+    text-decoration: underline;
+}
+
+.comic-header {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    background-color: var(--primary-medium);
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.comic-cover-large {
+    width: 250px;
+    height: 375px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid var(--primary-light);
+}
+
+.comic-details {
+    flex: 1;
+}
+
+.comic-details h2 {
+    color: var(--accent-blue);
+    margin-top: 0;
+}
+
+.comic-author {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.comic-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.chapters-section {
+    margin-top: 2rem;
+}
+
+.chapters-section h3 {
+    color: var(--accent-blue);
+    margin-bottom: 1rem;
+}
+
+.chapters-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.chapter-card {
+    background-color: var(--primary-medium);
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: block;
+}
+
+.chapter-card:hover {
+    background-color: var(--primary-light);
+    transform: translateY(-3px);
+}
+
+.chapter-number {
+    display: block;
+    color: var(--text-primary);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.chapter-date {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .comic-header {
+        flex-direction: column;
+    }
+    
+    .comic-cover-large {
+        width: 100%;
+        height: auto;
+    }
+    
+    .chapters-list {
+        grid-template-columns: 1fr;
+    }
+}
